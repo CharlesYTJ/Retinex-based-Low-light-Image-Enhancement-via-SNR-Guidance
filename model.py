@@ -36,7 +36,7 @@ class ConvP(nn.Module):
             )
     def forward(self, x):
         p = self.downd(x)
-        return self.upd(p)+x, p
+        return self.upd(p)+x
 
 class ConvI(nn.Module):
     def __init__(self, num,rate=0.5):
@@ -56,7 +56,7 @@ class ConvI(nn.Module):
             )
     def forward(self, x):
         i = self.downd(x)
-        return self.upd(i)+x, i
+        return self.upd(i)+x
 
         
 class PILayer(nn.Module):
@@ -66,10 +66,10 @@ class PILayer(nn.Module):
         self.i = ConvI(num)
         
     def forward(self, x):
-        u1, p= self.p(x)
-        u2, i= self.i(x)
+        u1 = self.p(x)
+        u2 = self.i(x)
 
-        return u1+u2, i*p, i, p
+        return u1+u2
 
         
 class Head(nn.Module):
@@ -185,7 +185,7 @@ class SNR(nn.Module):
     def forward(self, x):
         _, _, H, W = x.shape
         x1 = self.fl(x)
-        u,X1,i,p = self.pi(x1)
+        u = self.pi(x1)
         R,L = self.head(u)
         
         # x_center = X1
